@@ -97,7 +97,7 @@ export default function Overview() {
         {stats.map((stat) => (
           <div key={stat.label} className="panel p-4">
             <Stat label={stat.label} value={stat.value} change={stat.change} />
-            <p className="mt-2.5 text-[11px] text-white/32">{stat.foot}</p>
+            <p className="mt-2.5 text-[11px] text-[rgb(var(--ink-rgb)/0.32)]">{stat.foot}</p>
           </div>
         ))}
       </section>
@@ -107,8 +107,8 @@ export default function Overview() {
           <SectionHead
             title="Revenue & expenses"
             actions={
-              <div className="flex items-center gap-3 text-[10px] text-white/40">
-                <span className="hidden text-white/30 sm:inline">14 days</span>
+              <div className="flex items-center gap-3 text-[10px] text-[rgb(var(--ink-rgb)/0.40)]">
+                <span className="hidden text-[rgb(var(--ink-rgb)/0.30)] sm:inline">14 days</span>
                 <span className="flex items-center gap-1.5">
                   <span className="size-1.5 rounded-full" style={{ background: primary }} />
                   Revenue
@@ -145,11 +145,11 @@ export default function Overview() {
                 <Tooltip
                   contentStyle={{
                     background: "#0b0e14",
-                    border: "1px solid rgb(255 255 255 / 0.12)",
+                    border: "1px solid rgb(var(--ink-rgb) / 0.12)",
                     borderRadius: 10,
                     fontSize: 12,
                   }}
-                  labelStyle={{ color: "rgb(255 255 255 / 0.5)", fontSize: 10 }}
+                  labelStyle={{ color: "rgb(var(--ink-rgb) / 0.5)", fontSize: 10 }}
                   formatter={(value, name) => [usd(Number(value), 0), String(name)]}
                 />
                 <Area
@@ -184,10 +184,10 @@ export default function Overview() {
               return (
                 <div key={zone.zone}>
                   <div className="mb-2 flex items-end justify-between">
-                    <span className="text-[12px] font-medium text-white/75">{zone.zone}</span>
-                    <span className="num text-[11px] text-white/40">
+                    <span className="text-[12px] font-medium text-[rgb(var(--ink-rgb)/0.75)]">{zone.zone}</span>
+                    <span className="num text-[11px] text-[rgb(var(--ink-rgb)/0.40)]">
                       {zone.busy}
-                      <span className="text-white/20">/{zone.total}</span>
+                      <span className="text-[rgb(var(--ink-rgb)/0.20)]">/{zone.total}</span>
                     </span>
                   </div>
                   <div className="flex gap-1">
@@ -208,8 +208,8 @@ export default function Overview() {
                                     : "none",
                               }
                             : {
-                                background: "rgb(255 255 255 / 0.025)",
-                                borderColor: "rgb(255 255 255 / 0.06)",
+                                background: "rgb(var(--ink-rgb) / 0.025)",
+                                borderColor: "rgb(var(--ink-rgb) / 0.06)",
                               }
                         }
                       />
@@ -219,9 +219,9 @@ export default function Overview() {
               );
             })}
           </div>
-          <div className="mt-5 flex items-center justify-between border-t border-white/8 pt-3">
-            <span className="text-[11px] text-white/40">Peak today</span>
-            <span className="num text-[12px] text-white/80">20:00 · 21/24</span>
+          <div className="mt-5 flex items-center justify-between border-t border-[rgb(var(--ink-rgb)/0.08)] pt-3">
+            <span className="text-[11px] text-[rgb(var(--ink-rgb)/0.40)]">Peak today</span>
+            <span className="num text-[12px] text-[rgb(var(--ink-rgb)/0.80)]">20:00 · 21/24</span>
           </div>
         </div>
       </section>
@@ -231,27 +231,27 @@ export default function Overview() {
           <SectionHead
             title="Live activity"
             hint="auto-refresh"
-            actions={<Radio size={13} className="text-white/30" />}
+            actions={<Radio size={13} className="text-[rgb(var(--ink-rgb)/0.30)]" />}
           />
           <div className="space-y-0.5">
             {activity.slice(0, 5).map((row) => (
               <div
                 key={row.id}
-                className="flex items-center gap-3 rounded-lg px-1.5 py-2 transition hover:bg-white/4"
+                className="flex items-center gap-3 rounded-lg px-1.5 py-2 transition hover:bg-[rgb(var(--ink-rgb)/0.04)]"
               >
                 <span
-                  className="grid size-7 shrink-0 place-items-center rounded-md border border-white/8 bg-white/4 font-mono text-[8px] text-white/50"
+                  className="grid size-7 shrink-0 place-items-center rounded-md border border-[rgb(var(--ink-rgb)/0.08)] bg-[rgb(var(--ink-rgb)/0.04)] font-mono text-[8px] text-[rgb(var(--ink-rgb)/0.50)]"
                 >
                   {row.at}
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="num text-[11px] text-white/80">{row.station}</span>
-                    <span className="truncate text-[11px] text-white/35">{row.detail}</span>
+                    <span className="num text-[11px] text-[rgb(var(--ink-rgb)/0.80)]">{row.station}</span>
+                    <span className="truncate text-[11px] text-[rgb(var(--ink-rgb)/0.35)]">{row.detail}</span>
                   </div>
-                  <p className="text-[10px] text-white/28">{row.member}</p>
+                  <p className="text-[10px] text-[rgb(var(--ink-rgb)/0.28)]">{row.member}</p>
                 </div>
-                <span className="num text-[11px] text-white/55">
+                <span className="num text-[11px] text-[rgb(var(--ink-rgb)/0.55)]">
                   {row.amount ? `+${usd(row.amount)}` : "—"}
                 </span>
               </div>
@@ -266,13 +266,13 @@ export default function Overview() {
               const max = topProducts[0].revenue;
               return (
                 <div key={product.name} className="flex items-center gap-3">
-                  <span className="num w-3 text-[10px] text-white/25">{index + 1}</span>
+                  <span className="num w-3 text-[10px] text-[rgb(var(--ink-rgb)/0.25)]">{index + 1}</span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-baseline justify-between gap-2">
-                      <span className="truncate text-[12px] text-white/75">{product.name}</span>
-                      <span className="num text-[11px] text-white/45">{usd(product.revenue, 0)}</span>
+                      <span className="truncate text-[12px] text-[rgb(var(--ink-rgb)/0.75)]">{product.name}</span>
+                      <span className="num text-[11px] text-[rgb(var(--ink-rgb)/0.45)]">{usd(product.revenue, 0)}</span>
                     </div>
-                    <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-white/6">
+                    <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-[rgb(var(--ink-rgb)/0.06)]">
                       <div
                         className="h-full rounded-full"
                         style={{
@@ -298,15 +298,15 @@ export default function Overview() {
             {alerts.slice(0, 3).map((alert) => (
               <div
                 key={alert.id}
-                className="rounded-lg border border-white/6 bg-white/2 px-2.5 py-2"
+                className="rounded-lg border border-[rgb(var(--ink-rgb)/0.06)] bg-[rgb(var(--ink-rgb)/0.02)] px-2.5 py-2"
               >
                 <div className="flex items-center justify-between">
-                  <span className="num text-[11px] text-white/80">{alert.station}</span>
+                  <span className="num text-[11px] text-[rgb(var(--ink-rgb)/0.80)]">{alert.station}</span>
                   <StatusPill tone={alert.severity === "critical" ? "red" : "amber"}>
                     {alert.kind}
                   </StatusPill>
                 </div>
-                <p className="mt-1 truncate text-[10px] text-white/38">{alert.message}</p>
+                <p className="mt-1 truncate text-[10px] text-[rgb(var(--ink-rgb)/0.38)]">{alert.message}</p>
               </div>
             ))}
           </div>
@@ -323,7 +323,7 @@ export default function Overview() {
         </div>
       </section>
 
-      <div className="mt-4 flex items-center justify-between text-[10px] text-white/22">
+      <div className="mt-4 flex items-center justify-between text-[10px] text-[rgb(var(--ink-rgb)/0.22)]">
         <span>Nexus OS · build 0.5.1</span>
         <span className="num">Latency 12ms · 24 nodes online</span>
       </div>

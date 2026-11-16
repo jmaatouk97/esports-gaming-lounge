@@ -74,7 +74,7 @@ export default function Reports() {
         }
       />
 
-      <div className="mb-3 rounded-2xl border border-white/7 bg-white/2 p-4">
+      <div className="mb-3 rounded-2xl border border-[rgb(var(--ink-rgb)/0.07)] bg-[rgb(var(--ink-rgb)/0.02)] p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="min-w-[220px] flex-1">
             <p className="eyebrow mb-1">Close workflow</p>
@@ -89,7 +89,7 @@ export default function Reports() {
             />
           </div>
           <div className="flex items-center gap-2">
-            <span className="num text-[10px] text-white/30">Step {step + 1} of 3</span>
+            <span className="num text-[10px] text-[rgb(var(--ink-rgb)/0.30)]">Step {step + 1} of 3</span>
             <Button
               variant="primary"
               size="small"
@@ -114,17 +114,17 @@ export default function Reports() {
                 <span className="eyebrow">Open shift</span>
                 <StatusPill tone="blue">SH-116</StatusPill>
               </div>
-              <h2 className="mt-2 text-[20px] font-semibold tracking-tight text-white/92">
+              <h2 className="mt-2 text-[20px] font-semibold tracking-tight text-[rgb(var(--ink-rgb)/0.92)]">
                 Night · Ivy M.
               </h2>
-              <p className="mt-1 flex items-center gap-1.5 text-[11px] text-white/35">
+              <p className="mt-1 flex items-center gap-1.5 text-[11px] text-[rgb(var(--ink-rgb)/0.35)]">
                 <Clock3 size={12} /> 22:00 — 06:00 · 4h 12m elapsed
               </p>
             </div>
             <div className="text-right">
-              <p className="text-[10px] text-white/35">Gross</p>
-              <p className="num text-[26px] tracking-tight text-white/95">{usd(1486.5)}</p>
-              <p className="text-[10px] text-white/28">+8.4% vs. last Friday</p>
+              <p className="text-[10px] text-[rgb(var(--ink-rgb)/0.35)]">Gross</p>
+              <p className="num text-[26px] tracking-tight text-[rgb(var(--ink-rgb)/0.95)]">{usd(1486.5)}</p>
+              <p className="text-[10px] text-[rgb(var(--ink-rgb)/0.28)]">+8.4% vs. last Friday</p>
             </div>
           </div>
 
@@ -135,13 +135,13 @@ export default function Reports() {
               ["PC tabs", current.tab],
             ].map(([label, value]) => (
               <div key={String(label)} className="inset-well p-3">
-                <p className="text-[9px] uppercase tracking-[0.1em] text-white/30">{label}</p>
-                <p className="num mt-1 text-[14px] text-white/85">{usd(Number(value))}</p>
+                <p className="text-[9px] uppercase tracking-[0.1em] text-[rgb(var(--ink-rgb)/0.30)]">{label}</p>
+                <p className="num mt-1 text-[14px] text-[rgb(var(--ink-rgb)/0.85)]">{usd(Number(value))}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-5 rounded-xl border border-white/8 bg-white/3 p-4">
+          <div className="mt-5 rounded-xl border border-[rgb(var(--ink-rgb)/0.08)] bg-[rgb(var(--ink-rgb)/0.03)] p-4">
             <div className="flex items-center justify-between pb-2">
               <span className="section-title">Cash reconciliation</span>
               <span className="rail-label">SH-116</span>
@@ -152,13 +152,13 @@ export default function Reports() {
               ["Expected in drawer", expected],
               ["Counted", counted],
             ].map(([label, value]) => (
-              <div key={String(label)} className="flex justify-between border-t border-white/6 py-1.5 text-[11px]">
-                <span className="text-white/40">{label}</span>
-                <span className="num text-white/75">{usd(Number(value))}</span>
+              <div key={String(label)} className="flex justify-between border-t border-[rgb(var(--ink-rgb)/0.06)] py-1.5 text-[11px]">
+                <span className="text-[rgb(var(--ink-rgb)/0.40)]">{label}</span>
+                <span className="num text-[rgb(var(--ink-rgb)/0.75)]">{usd(Number(value))}</span>
               </div>
             ))}
-            <div className="mt-1 flex items-center justify-between border-t border-white/10 pt-2">
-              <span className="text-[11px] text-white/55">Variance</span>
+            <div className="mt-1 flex items-center justify-between border-t border-[rgb(var(--ink-rgb)/0.10)] pt-2">
+              <span className="text-[11px] text-[rgb(var(--ink-rgb)/0.55)]">Variance</span>
               <span
                 className="num text-[13px]"
                 style={{ color: variance < 0 ? "#f87171" : "#4ade80" }}
@@ -212,24 +212,24 @@ export default function Reports() {
               />
             </div>
           </div>
-          <div className="divide-y divide-white/6">
+          <div className="divide-y divide-[rgb(var(--ink-rgb)/0.06)]">
             {archive.slice(0, range === "today" ? 3 : 5).map((report) => (
               <div key={report.id} className="flex items-center gap-3 px-4 py-2.5">
-                <span className="grid size-8 place-items-center rounded-lg border border-white/8 bg-white/4 text-white/45">
+                <span className="grid size-8 place-items-center rounded-lg border border-[rgb(var(--ink-rgb)/0.08)] bg-[rgb(var(--ink-rgb)/0.04)] text-[rgb(var(--ink-rgb)/0.45)]">
                   <ArrowDownToLine size={13} />
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="num text-[11px] text-white/80">{report.id}</span>
-                    <span className="text-[10px] text-white/30">{report.date}</span>
+                    <span className="num text-[11px] text-[rgb(var(--ink-rgb)/0.80)]">{report.id}</span>
+                    <span className="text-[10px] text-[rgb(var(--ink-rgb)/0.30)]">{report.date}</span>
                   </div>
-                  <p className="text-[10px] text-white/32">
+                  <p className="text-[10px] text-[rgb(var(--ink-rgb)/0.32)]">
                     {report.staff} · gross {usd(report.gross, 0)}
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="num text-[11px] text-white/70">{usd(report.net, 0)}</p>
-                  <p className="text-[9px] text-white/25">net</p>
+                  <p className="num text-[11px] text-[rgb(var(--ink-rgb)/0.70)]">{usd(report.net, 0)}</p>
+                  <p className="text-[9px] text-[rgb(var(--ink-rgb)/0.25)]">net</p>
                 </div>
                 <Button
                   variant="quiet"
@@ -241,14 +241,14 @@ export default function Reports() {
               </div>
             ))}
           </div>
-          <div className="border-t border-white/8 p-4">
+          <div className="border-t border-[rgb(var(--ink-rgb)/0.08)] p-4">
             <div className="mb-2 flex items-center justify-between text-[10px]">
-              <span className="text-white/35">Month-to-date close rate</span>
-              <span className="num text-white/70">13 / 14</span>
+              <span className="text-[rgb(var(--ink-rgb)/0.35)]">Month-to-date close rate</span>
+              <span className="num text-[rgb(var(--ink-rgb)/0.70)]">13 / 14</span>
             </div>
             <Progress label="Close rate" value={13} max={14} />
           </div>
-          <div className="border-t border-white/8 p-4">
+          <div className="border-t border-[rgb(var(--ink-rgb)/0.08)] p-4">
             <div className="mb-2 flex items-center justify-between">
               <span className="eyebrow">Handover notes</span>
               <span className="rail-label">3 items</span>
@@ -259,12 +259,12 @@ export default function Reports() {
                 "Energy restock due before 12:00 · 24 units.",
                 "Lost jacket logged at desk · ticket #A-118.",
               ].map((note) => (
-                <div key={note} className="flex items-start gap-2 rounded-lg bg-white/2 px-2.5 py-1.5">
+                <div key={note} className="flex items-start gap-2 rounded-lg bg-[rgb(var(--ink-rgb)/0.02)] px-2.5 py-1.5">
                   <span
                     className="mt-1.5 size-1 shrink-0 rounded-full"
                     style={{ background: "var(--theme-secondary)" }}
                   />
-                  <p className="text-[10.5px] leading-relaxed text-white/45">{note}</p>
+                  <p className="text-[10.5px] leading-relaxed text-[rgb(var(--ink-rgb)/0.45)]">{note}</p>
                 </div>
               ))}
             </div>
@@ -276,7 +276,7 @@ export default function Reports() {
         <div className="panel overflow-hidden">
           <div className="flex items-center justify-between p-4 pb-2">
             <SectionHead title="Staff performance" hint="this week" />
-            <Users size={14} className="text-white/30" />
+            <Users size={14} className="text-[rgb(var(--ink-rgb)/0.30)]" />
           </div>
           <table className="data-table">
             <thead>
@@ -291,10 +291,10 @@ export default function Reports() {
               {staff.map((person) => (
                 <tr key={person.name}>
                   <td>
-                    <p className="text-[12px] text-white/85">{person.name}</p>
-                    <p className="text-[9.5px] text-white/30">{person.role}</p>
+                    <p className="text-[12px] text-[rgb(var(--ink-rgb)/0.85)]">{person.name}</p>
+                    <p className="text-[9.5px] text-[rgb(var(--ink-rgb)/0.30)]">{person.role}</p>
                   </td>
-                  <td className="num text-white/55">{person.shifts}</td>
+                  <td className="num text-[rgb(var(--ink-rgb)/0.55)]">{person.shifts}</td>
                   <td className="num">{usd(person.sales, 0)}</td>
                   <td className="num" style={{ color: "var(--theme-secondary)" }}>
                     {person.upsell}
@@ -313,9 +313,9 @@ export default function Reports() {
             { label: "Avg. close time", value: "11m", foot: "target 15m" },
           ].map((item) => (
             <Card key={item.label} className="!p-4">
-              <p className="text-[10px] text-white/35">{item.label}</p>
-              <p className="num mt-1.5 text-[19px] text-white/90">{item.value}</p>
-              <p className="mt-1.5 text-[9.5px] text-white/28">{item.foot}</p>
+              <p className="text-[10px] text-[rgb(var(--ink-rgb)/0.35)]">{item.label}</p>
+              <p className="num mt-1.5 text-[19px] text-[rgb(var(--ink-rgb)/0.90)]">{item.value}</p>
+              <p className="mt-1.5 text-[9.5px] text-[rgb(var(--ink-rgb)/0.28)]">{item.foot}</p>
             </Card>
           ))}
         </div>
@@ -328,7 +328,7 @@ export default function Reports() {
         onOpenChange={setZOpen}
       >
         <div className="space-y-3">
-          <div className="rounded-xl border border-white/8 bg-white/3 p-3 text-[12px]">
+          <div className="rounded-xl border border-[rgb(var(--ink-rgb)/0.08)] bg-[rgb(var(--ink-rgb)/0.03)] p-3 text-[12px]">
             {[
               ["Gross sales", 1486.5],
               ["Refunds", -24],
@@ -336,8 +336,8 @@ export default function Reports() {
               ["Net revenue", 1414.3],
             ].map(([label, value]) => (
               <div key={String(label)} className="flex justify-between py-1">
-                <span className="text-white/40">{label}</span>
-                <span className="num text-white/80">{usd(Number(value))}</span>
+                <span className="text-[rgb(var(--ink-rgb)/0.40)]">{label}</span>
+                <span className="num text-[rgb(var(--ink-rgb)/0.80)]">{usd(Number(value))}</span>
               </div>
             ))}
           </div>

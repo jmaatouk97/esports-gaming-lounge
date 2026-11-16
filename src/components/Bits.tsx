@@ -17,10 +17,10 @@ export function PageHeader({
       <div className="min-w-0">
         <div className="mb-2 flex items-center gap-2">
           <span className="eyebrow">{eyebrow}</span>
-          <span className="h-px w-6 bg-white/12" />
+          <span className="h-px w-6 bg-[rgb(var(--ink-rgb)/0.12)]" />
         </div>
         <h1 className="page-title">{title}</h1>
-        {meta && <div className="mt-2 text-[12px] text-white/40">{meta}</div>}
+        {meta && <div className="mt-2 text-[12px] text-[rgb(var(--ink-rgb)/0.40)]">{meta}</div>}
       </div>
       {actions && <div className="flex items-center gap-2">{actions}</div>}
     </div>
@@ -40,7 +40,7 @@ export function SectionHead({
     <div className="mb-3 flex items-center justify-between gap-3">
       <div className="flex items-center gap-2.5">
         <h2 className="section-title">{title}</h2>
-        {hint && <span className="text-[11px] text-white/35">{hint}</span>}
+        {hint && <span className="text-[11px] text-[rgb(var(--ink-rgb)/0.35)]">{hint}</span>}
       </div>
       {actions}
     </div>
@@ -101,9 +101,9 @@ export function StatusPill({
 
 export function EmptyState({ title, hint }: { title: string; hint?: string }) {
   return (
-    <div className="grid place-items-center rounded-xl border border-dashed border-white/10 px-6 py-10 text-center">
-      <p className="text-[13px] font-medium text-white/60">{title}</p>
-      {hint && <p className="mt-1 text-[11px] text-white/30">{hint}</p>}
+    <div className="grid place-items-center rounded-xl border border-dashed border-[rgb(var(--ink-rgb)/0.10)] px-6 py-10 text-center">
+      <p className="text-[13px] font-medium text-[rgb(var(--ink-rgb)/0.60)]">{title}</p>
+      {hint && <p className="mt-1 text-[11px] text-[rgb(var(--ink-rgb)/0.30)]">{hint}</p>}
     </div>
   );
 }

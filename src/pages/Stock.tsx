@@ -91,9 +91,9 @@ export default function Stock() {
       <section className="mb-3 grid grid-cols-2 gap-3 xl:grid-cols-4">
         {stats.map((stat) => (
           <div key={stat.label} className="panel p-4">
-            <p className="text-[11px] text-white/40">{stat.label}</p>
+            <p className="text-[11px] text-[rgb(var(--ink-rgb)/0.40)]">{stat.label}</p>
             <p className="metric mt-2">{stat.value}</p>
-            <p className="mt-2 text-[10px] text-white/28">{stat.foot}</p>
+            <p className="mt-2 text-[10px] text-[rgb(var(--ink-rgb)/0.28)]">{stat.foot}</p>
           </div>
         ))}
       </section>
@@ -120,7 +120,7 @@ export default function Stock() {
       )}
 
       <section className="panel overflow-hidden">
-        <div className="flex flex-wrap items-end gap-2 border-b border-white/7 p-4">
+        <div className="flex flex-wrap items-end gap-2 border-b border-[rgb(var(--ink-rgb)/0.07)] p-4">
           <div className="min-w-[220px] flex-1">
             <SearchField
               label="Search inventory"
@@ -150,7 +150,7 @@ export default function Stock() {
               ]}
             />
           </div>
-          <span className="num mb-2 ml-auto hidden text-[10px] text-white/25 md:block">
+          <span className="num mb-2 ml-auto hidden text-[10px] text-[rgb(var(--ink-rgb)/0.25)] md:block">
             {filtered.length} rows
           </span>
         </div>
@@ -177,8 +177,8 @@ export default function Stock() {
                 return (
                   <tr key={item.id}>
                     <td>
-                      <p className="text-[12px] font-medium text-white/85">{item.name}</p>
-                      <p className="num text-[9.5px] text-white/28">{item.sku}</p>
+                      <p className="text-[12px] font-medium text-[rgb(var(--ink-rgb)/0.85)]">{item.name}</p>
+                      <p className="num text-[9.5px] text-[rgb(var(--ink-rgb)/0.28)]">{item.sku}</p>
                     </td>
                     <td>
                       <span className="chip !h-5 !text-[9.5px]">{item.category}</span>
@@ -188,7 +188,7 @@ export default function Stock() {
                         <span className={item.stock < item.reorder ? "text-amber-300" : ""}>
                           {item.stock}
                         </span>
-                        <span className="h-1 w-14 overflow-hidden rounded-full bg-white/8">
+                        <span className="h-1 w-14 overflow-hidden rounded-full bg-[rgb(var(--ink-rgb)/0.08)]">
                           <span
                             className="block h-full rounded-full"
                             style={{
@@ -204,10 +204,10 @@ export default function Stock() {
                         </span>
                       </div>
                     </td>
-                    <td className="num text-white/40">{item.reorder}</td>
+                    <td className="num text-[rgb(var(--ink-rgb)/0.40)]">{item.reorder}</td>
                     <td className="num">{usd(item.unitCost)}</td>
                     <td className="num">{usd(item.stock * item.unitCost, 0)}</td>
-                    <td className="text-[11px] text-white/45">{item.supplier}</td>
+                    <td className="text-[11px] text-[rgb(var(--ink-rgb)/0.45)]">{item.supplier}</td>
                     <td>
                       <StatusPill tone={state.tone}>{state.label}</StatusPill>
                     </td>
@@ -232,8 +232,8 @@ export default function Stock() {
         </div>
         {!filtered.length && (
           <div className="grid place-items-center gap-2 py-14 text-center">
-            <Search size={18} className="text-white/20" />
-            <p className="text-[12px] text-white/40">No inventory matches these filters.</p>
+            <Search size={18} className="text-[rgb(var(--ink-rgb)/0.20)]" />
+            <p className="text-[12px] text-[rgb(var(--ink-rgb)/0.40)]">No inventory matches these filters.</p>
           </div>
         )}
       </section>
@@ -247,12 +247,12 @@ export default function Stock() {
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div className="inset-well p-3">
-              <p className="text-[10px] text-white/35">On hand</p>
-              <p className="num mt-1 text-[18px] text-white/85">{restocking?.stock ?? 0}</p>
+              <p className="text-[10px] text-[rgb(var(--ink-rgb)/0.35)]">On hand</p>
+              <p className="num mt-1 text-[18px] text-[rgb(var(--ink-rgb)/0.85)]">{restocking?.stock ?? 0}</p>
             </div>
             <div className="inset-well p-3">
-              <p className="text-[10px] text-white/35">Reorder point</p>
-              <p className="num mt-1 text-[18px] text-white/85">{restocking?.reorder ?? 0}</p>
+              <p className="text-[10px] text-[rgb(var(--ink-rgb)/0.35)]">Reorder point</p>
+              <p className="num mt-1 text-[18px] text-[rgb(var(--ink-rgb)/0.85)]">{restocking?.reorder ?? 0}</p>
             </div>
           </div>
           <NumberField label="Units to add" value={qty} min={1} onValueChange={setQty} />

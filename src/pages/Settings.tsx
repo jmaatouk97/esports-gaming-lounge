@@ -65,8 +65,8 @@ export default function Settings() {
           <section className="panel p-5">
             <SectionHead
               title="Theme palette"
-              hint="6 curated presets"
-              actions={<Palette size={14} className="text-white/30" />}
+              hint="16 curated presets"
+              actions={<Palette size={14} className="text-[rgb(var(--ink-rgb)/0.30)]" />}
             />
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {PRESETS.map((item) => {
@@ -85,8 +85,8 @@ export default function Settings() {
                         ? "color-mix(in srgb, var(--theme-primary) 45%, transparent)"
                         : "var(--hairline)",
                       background: active
-                        ? "color-mix(in srgb, var(--theme-primary) 8%, rgb(255 255 255 / 0.02))"
-                        : "rgb(255 255 255 / 0.025)",
+                        ? "color-mix(in srgb, var(--theme-primary) 8%, rgb(var(--ink-rgb) / 0.02))"
+                        : "rgb(var(--ink-rgb) / 0.025)",
                     }}
                   >
                     <div className="flex items-center justify-between">
@@ -100,15 +100,15 @@ export default function Settings() {
                         </span>
                       )}
                     </div>
-                    <p className="mt-3 text-[12px] font-medium text-white/85">{item.name}</p>
-                    <p className="num mt-0.5 text-[9px] uppercase tracking-[0.08em] text-white/28">
+                    <p className="mt-3 text-[12px] font-medium text-[rgb(var(--ink-rgb)/0.85)]">{item.name}</p>
+                    <p className="num mt-0.5 text-[9px] uppercase tracking-[0.08em] text-[rgb(var(--ink-rgb)/0.28)]">
                       {item.colors.join(" · ")}
                     </p>
                   </button>
                 );
               })}
             </div>
-            <p className="mt-3 text-[10.5px] leading-relaxed text-white/32">
+            <p className="mt-3 text-[10.5px] leading-relaxed text-[rgb(var(--ink-rgb)/0.32)]">
               Accent drives primary actions and focus. Secondary colors data. Surfaces stay neutral.
             </p>
           </section>
@@ -154,14 +154,14 @@ export default function Settings() {
               {INTEGRATIONS.map((integration) => (
                 <div
                   key={integration.name}
-                  className="flex items-center gap-3 rounded-xl border border-white/7 bg-white/2 px-3 py-2.5"
+                  className="flex items-center gap-3 rounded-xl border border-[rgb(var(--ink-rgb)/0.07)] bg-[rgb(var(--ink-rgb)/0.02)] px-3 py-2.5"
                 >
-                  <span className="grid size-8 place-items-center rounded-lg border border-white/8 bg-white/4 text-white/50">
+                  <span className="grid size-8 place-items-center rounded-lg border border-[rgb(var(--ink-rgb)/0.08)] bg-[rgb(var(--ink-rgb)/0.04)] text-[rgb(var(--ink-rgb)/0.50)]">
                     <integration.icon size={14} />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[12px] text-white/80">{integration.name}</p>
-                    <p className="truncate text-[10px] text-white/30">{integration.detail}</p>
+                    <p className="text-[12px] text-[rgb(var(--ink-rgb)/0.80)]">{integration.name}</p>
+                    <p className="truncate text-[10px] text-[rgb(var(--ink-rgb)/0.30)]">{integration.detail}</p>
                   </div>
                   <StatusPill tone={integration.status === "connected" ? "green" : "slate"}>
                     {integration.status}
@@ -183,7 +183,7 @@ export default function Settings() {
         <div className="space-y-3">
           <section className="panel p-5">
             <SectionHead title="Interface" hint="density & motion" />
-            <p className="mb-2 text-[10px] uppercase tracking-[0.12em] text-white/30">Table density</p>
+            <p className="mb-2 text-[10px] uppercase tracking-[0.12em] text-[rgb(var(--ink-rgb)/0.30)]">Table density</p>
             <SegmentedControl
               aria-label="Table density"
               value={density}
@@ -207,12 +207,12 @@ export default function Settings() {
                 }}
               />
             </div>
-            <div className="mt-4 rounded-xl border border-white/8 bg-white/3 p-3">
-              <div className="flex items-center gap-2 text-[11px] text-white/55">
+            <div className="mt-4 rounded-xl border border-[rgb(var(--ink-rgb)/0.08)] bg-[rgb(var(--ink-rgb)/0.03)] p-3">
+              <div className="flex items-center gap-2 text-[11px] text-[rgb(var(--ink-rgb)/0.55)]">
                 <Sparkles size={13} />
                 Dark liquid glass · frosted surfaces
               </div>
-              <p className="mt-1.5 text-[10px] leading-relaxed text-white/30">
+              <p className="mt-1.5 text-[10px] leading-relaxed text-[rgb(var(--ink-rgb)/0.30)]">
                 Neutral #0B0D12–#141821 base. Spectral accents are reserved for status and data.
               </p>
             </div>
@@ -228,19 +228,19 @@ export default function Settings() {
                 ["Icons", "Lucide 1.72"],
               ].map(([label, value]) => (
                 <div key={label} className="flex justify-between">
-                  <span className="text-white/35">{label}</span>
-                  <span className="num text-white/70">{value}</span>
+                  <span className="text-[rgb(var(--ink-rgb)/0.35)]">{label}</span>
+                  <span className="num text-[rgb(var(--ink-rgb)/0.70)]">{value}</span>
                 </div>
               ))}
             </div>
-            <div className="mt-3 flex items-center gap-2 border-t border-white/8 pt-3 text-[10px] text-white/30">
+            <div className="mt-3 flex items-center gap-2 border-t border-[rgb(var(--ink-rgb)/0.08)] pt-3 text-[10px] text-[rgb(var(--ink-rgb)/0.30)]">
               <Cpu size={12} /> Type-safe · Vite 8 · React 19
             </div>
           </Card>
 
           <section className="panel p-5">
             <SectionHead title="Danger zone" hint="demo data" />
-            <p className="text-[11px] leading-relaxed text-white/35">
+            <p className="text-[11px] leading-relaxed text-[rgb(var(--ink-rgb)/0.35)]">
               Resets stations, stock, members and theme to the seeded demo state.
             </p>
             <Button

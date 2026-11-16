@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  base: process.env.GITHUB_ACTIONS ? "/nexus-gaming-lounge/" : "/",
+  base: process.env.GITHUB_ACTIONS ? "/esports-gaming-lounge/" : "/",
   plugins: [react(), tailwindcss()],
   server: { port: 5173 },
 });

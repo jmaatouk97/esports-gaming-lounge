@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   Button,
-  Drawer,
   IconButton,
   SearchField,
   SegmentedControl,
@@ -22,9 +21,9 @@ import {
   Sparkles,
   Trash2,
   UtensilsCrossed,
-  Wrench,
 } from "lucide-react";
-import { PageHeader, SectionHead, StatusPill, usd } from "../components/Bits";
+import { PageHeader, SectionHead, usd } from "../components/Bits";
+import FloorEditor from "../components/floor/FloorEditor";
 import { products, type Product, type ProductCategory, type Station } from "../data";
 import { useApp } from "../store";
 
@@ -85,56 +84,26 @@ function ProductTile({ product, onAdd }: { product: Product; onAdd: () => void }
     >
       <div className="flex items-start justify-between">
         <span
-          className="grid size-8 place-items-center rounded-lg border border-white/8 bg-white/5 text-white/60"
+          className="grid size-8 place-items-center rounded-lg border border-[rgb(var(--ink-rgb)/0.08)] bg-[rgb(var(--ink-rgb)/0.05)] text-[rgb(var(--ink-rgb)/0.60)]"
           aria-hidden="true"
         >
           <Icon size={15} strokeWidth={1.8} />
         </span>
-        <span className="num text-[12px] text-white/85">{usd(product.price)}</span>
+        <span className="num text-[12px] text-[rgb(var(--ink-rgb)/0.85)]">{usd(product.price)}</span>
       </div>
-      <p className="mt-3 line-clamp-2 min-h-[32px] text-[12.5px] font-medium leading-snug text-white/85">
+      <p className="mt-3 line-clamp-2 min-h-[32px] text-[12.5px] font-medium leading-snug text-[rgb(var(--ink-rgb)/0.85)]">
         {product.name}
       </p>
       <div className="mt-2.5 flex items-center justify-between">
-        <span className="text-[10px] text-white/30">
+        <span className="text-[10px] text-[rgb(var(--ink-rgb)/0.30)]">
           {out ? "Sold out" : `${product.stock} left`}
         </span>
         <span
-          className="grid size-5 place-items-center rounded-full border border-white/10 bg-white/5 text-white/60 transition group-hover:bg-white/10"
+          className="grid size-5 place-items-center rounded-full border border-[rgb(var(--ink-rgb)/0.10)] bg-[rgb(var(--ink-rgb)/0.05)] text-[rgb(var(--ink-rgb)/0.60)] transition group-hover:bg-[rgb(var(--ink-rgb)/0.10)]"
           aria-hidden="true"
         >
           <Plus size={11} />
         </span>
-      </div>
-    </button>
-  );
-}
-
-function StationCard({ station, onOpen }: { station: Station; onOpen: () => void }) {
-  const left = remaining(station);
-  return (
-    <button type="button" className="station" data-status={station.status} onClick={onOpen}>
-      <div className="mb-2 flex items-start justify-between">
-        <span className="num text-[13px] font-medium tracking-tight text-white/90">
-          {station.id}
-        </span>
-        <span className="dot" style={{ background: "var(--station-color)" }} />
-      </div>
-      <p className="truncate text-[11px] text-white/40">
-        {station.status === "in-use" ? station.member : STATUS_LABEL[station.status]}
-      </p>
-      <div className="mt-2.5 flex items-end justify-between">
-        <span className="num text-[15px] font-medium text-white/90">
-          {station.status === "in-use" ? left : station.status === "available" ? "Ready" : "—"}
-        </span>
-        <span className="text-[9px] uppercase tracking-[0.1em] text-white/25">
-          {station.zone === "Main Hall" ? "MH" : station.zone === "VIP Room" ? "VIP" : "CS"}
-        </span>
-      </div>
-      <div className="mt-2 flex gap-2 border-t border-white/6 pt-2 text-[9px] text-white/28">
-        <span className="num">CPU {station.telemetry.cpu}°</span>
-        <span className="num">GPU {station.telemetry.gpu}°</span>
-        <span className="num ml-auto">{station.telemetry.ping}ms</span>
       </div>
     </button>
   );
@@ -163,7 +132,6 @@ export default function Cafe() {
   const setMaintenance = useApp((s) => s.setMaintenance);
 
   const [payment, setPayment] = useState("Card");
-  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   useTick(mode === "floor");
 
@@ -192,10 +160,6 @@ export default function Cafe() {
   const discount = subtotal * discountRate;
   const tax = (subtotal - discount) * 0.08;
   const total = subtotal - discount + tax;
-
-  const selected = stations.find((s) => s.id === selectedId) ?? null;
-
-  const closeDrawer = () => setSelectedId(null);
 
   const handleCheckout = () => {
     if (!lines.length) return;
@@ -246,7 +210,7 @@ export default function Cafe() {
                   placeholder="Search products or SKU"
                 />
               </div>
-              <span className="num hidden text-[10px] text-white/25 sm:block">
+              <span className="num hidden text-[10px] text-[rgb(var(--ink-rgb)/0.25)] sm:block">
                 {filtered.length} items
               </span>
             </div>
@@ -271,7 +235,7 @@ export default function Cafe() {
               ))}
             </div>
             {!filtered.length && (
-              <div className="mt-6 rounded-xl border border-dashed border-white/10 py-10 text-center text-[12px] text-white/35">
+              <div className="mt-6 rounded-xl border border-dashed border-[rgb(var(--ink-rgb)/0.10)] py-10 text-center text-[12px] text-[rgb(var(--ink-rgb)/0.35)]">
                 No products match “{query}”.
               </div>
             )}
@@ -280,7 +244,7 @@ export default function Cafe() {
           <aside className="panel flex h-fit flex-col p-4 xl:sticky xl:top-[84px]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <ShoppingBag size={15} className="text-white/55" />
+                <ShoppingBag size={15} className="text-[rgb(var(--ink-rgb)/0.55)]" />
                 <h2 className="section-title">Current order</h2>
                 <span className="chip !h-5 !px-1.5 !text-[10px]">{cart.reduce((n, l) => n + l.qty, 0)}</span>
               </div>
@@ -316,8 +280,8 @@ export default function Cafe() {
                 ]}
               />
               {targetMember && (
-                <div className="mt-2 flex items-center justify-between rounded-lg border border-white/8 bg-white/3 px-2.5 py-1.5">
-                  <span className="flex items-center gap-1.5 text-[10px] text-white/45">
+                <div className="mt-2 flex items-center justify-between rounded-lg border border-[rgb(var(--ink-rgb)/0.08)] bg-[rgb(var(--ink-rgb)/0.03)] px-2.5 py-1.5">
+                  <span className="flex items-center gap-1.5 text-[10px] text-[rgb(var(--ink-rgb)/0.45)]">
                     <Sparkles size={11} />
                     {targetMember.tier} member · {usd(targetMember.balance)} balance
                   </span>
@@ -330,22 +294,22 @@ export default function Cafe() {
 
             <div className="scroll-thin mt-3 max-h-[310px] flex-1 space-y-1 overflow-y-auto pr-0.5">
               {!lines.length && (
-                <div className="grid place-items-center rounded-xl border border-dashed border-white/10 px-4 py-12 text-center">
-                  <Receipt size={20} className="mb-2 text-white/20" />
-                  <p className="text-[12px] text-white/40">Cart is empty</p>
-                  <p className="mt-0.5 text-[10px] text-white/22">Tap a product to add it</p>
+                <div className="grid place-items-center rounded-xl border border-dashed border-[rgb(var(--ink-rgb)/0.10)] px-4 py-12 text-center">
+                  <Receipt size={20} className="mb-2 text-[rgb(var(--ink-rgb)/0.20)]" />
+                  <p className="text-[12px] text-[rgb(var(--ink-rgb)/0.40)]">Cart is empty</p>
+                  <p className="mt-0.5 text-[10px] text-[rgb(var(--ink-rgb)/0.22)]">Tap a product to add it</p>
                 </div>
               )}
               {lines.map((line) => (
                 <div
                   key={line.productId}
-                  className="flex items-center gap-2.5 rounded-xl border border-transparent px-1.5 py-2 transition hover:border-white/8 hover:bg-white/3"
+                  className="flex items-center gap-2.5 rounded-xl border border-transparent px-1.5 py-2 transition hover:border-[rgb(var(--ink-rgb)/0.08)] hover:bg-[rgb(var(--ink-rgb)/0.03)]"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-[12px] font-medium text-white/80">
+                    <p className="truncate text-[12px] font-medium text-[rgb(var(--ink-rgb)/0.80)]">
                       {line.product!.name}
                     </p>
-                    <p className="num text-[10px] text-white/32">
+                    <p className="num text-[10px] text-[rgb(var(--ink-rgb)/0.32)]">
                       {usd(line.product!.price)} · {line.product!.sku}
                     </p>
                   </div>
@@ -353,46 +317,46 @@ export default function Cafe() {
                     <button
                       type="button"
                       aria-label={`Remove one ${line.product!.name}`}
-                      className="grid size-6 place-items-center rounded-md border border-white/10 bg-white/5 text-white/60 transition hover:bg-white/10 active:scale-95"
+                      className="grid size-6 place-items-center rounded-md border border-[rgb(var(--ink-rgb)/0.10)] bg-[rgb(var(--ink-rgb)/0.05)] text-[rgb(var(--ink-rgb)/0.60)] transition hover:bg-[rgb(var(--ink-rgb)/0.10)] active:scale-95"
                       onClick={() => decItem(line.productId)}
                     >
                       <Minus size={11} />
                     </button>
-                    <span className="num w-4 text-center text-[11px] text-white/75">{line.qty}</span>
+                    <span className="num w-4 text-center text-[11px] text-[rgb(var(--ink-rgb)/0.75)]">{line.qty}</span>
                     <button
                       type="button"
                       aria-label={`Add one ${line.product!.name}`}
-                      className="grid size-6 place-items-center rounded-md border border-white/10 bg-white/5 text-white/60 transition hover:bg-white/10 active:scale-95"
+                      className="grid size-6 place-items-center rounded-md border border-[rgb(var(--ink-rgb)/0.10)] bg-[rgb(var(--ink-rgb)/0.05)] text-[rgb(var(--ink-rgb)/0.60)] transition hover:bg-[rgb(var(--ink-rgb)/0.10)] active:scale-95"
                       onClick={() => addItem(line.productId)}
                     >
                       <Plus size={11} />
                     </button>
                   </div>
-                  <span className="num w-12 text-right text-[11px] text-white/70">
+                  <span className="num w-12 text-right text-[11px] text-[rgb(var(--ink-rgb)/0.70)]">
                     {usd(line.product!.price * line.qty)}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="mt-3 space-y-1.5 border-t border-white/8 pt-3 text-[11px]">
-              <div className="flex justify-between text-white/40">
+            <div className="mt-3 space-y-1.5 border-t border-[rgb(var(--ink-rgb)/0.08)] pt-3 text-[11px]">
+              <div className="flex justify-between text-[rgb(var(--ink-rgb)/0.40)]">
                 <span>Subtotal</span>
                 <span className="num">{usd(subtotal)}</span>
               </div>
-              <div className="flex justify-between text-white/40">
+              <div className="flex justify-between text-[rgb(var(--ink-rgb)/0.40)]">
                 <span>Member discount</span>
                 <span className="num" style={{ color: discount ? "#4ade80" : undefined }}>
                   {discount ? `−${usd(discount)}` : "—"}
                 </span>
               </div>
-              <div className="flex justify-between text-white/40">
+              <div className="flex justify-between text-[rgb(var(--ink-rgb)/0.40)]">
                 <span>Tax 8%</span>
                 <span className="num">{usd(tax)}</span>
               </div>
               <div className="flex items-baseline justify-between pt-1.5">
-                <span className="text-[12px] font-medium text-white/75">Total</span>
-                <span className="num text-[20px] font-medium tracking-tight text-white">
+                <span className="text-[12px] font-medium text-[rgb(var(--ink-rgb)/0.75)]">Total</span>
+                <span className="num text-[20px] font-medium tracking-tight text-[rgb(var(--ink-rgb)/0.95)]">
                   {usd(total)}
                 </span>
               </div>
@@ -424,220 +388,8 @@ export default function Cafe() {
           </aside>
         </div>
       ) : (
-        <section className="space-y-3">
-          <div className="panel flex flex-wrap items-center justify-between gap-3 px-4 py-3">
-            <div className="flex flex-wrap items-center gap-3 text-[10px] text-white/45">
-              {(
-                [
-                  ["available", "Available"],
-                  ["in-use", "In use"],
-                  ["reserved", "Reserved"],
-                  ["maintenance", "Maintenance"],
-                ] as const
-              ).map(([status, label]) => (
-                <span key={status} className="flex items-center gap-1.5">
-                  <span
-                    className="dot"
-                    style={{
-                      background:
-                        status === "available"
-                          ? "#34d399"
-                          : status === "in-use"
-                            ? "var(--theme-primary)"
-                            : status === "reserved"
-                              ? "#f59e0b"
-                              : "#f87171",
-                    }}
-                  />
-                  {label}
-                </span>
-              ))}
-            </div>
-            <span className="num text-[10px] text-white/30">
-              Click a station for actions · cart preserved
-            </span>
-          </div>
-
-          {(["Main Hall", "VIP Room", "Console Zone"] as const).map((zone) => {
-            const list = stations.filter((s) => s.zone === zone);
-            return (
-              <div key={zone} className="panel p-4">
-                <SectionHead
-                  title={zone}
-                  hint={`${list.filter((s) => s.status === "in-use").length}/${list.length} active`}
-                  actions={
-                    <span className="text-[10px] text-white/30">
-                      {zone === "Main Hall" ? "RTX 4070" : zone === "VIP Room" ? "RTX 4090" : "PS5 Pro"}
-                    </span>
-                  }
-                />
-                <div className="grid gap-2.5 [grid-template-columns:repeat(auto-fill,minmax(140px,1fr))]">
-                  {list.map((station) => (
-                    <StationCard
-                      key={station.id}
-                      station={station}
-                      onOpen={() => setSelectedId(station.id)}
-                    />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </section>
+        <FloorEditor />
       )}
-
-      <Drawer
-        title={selected ? `${selected.id} · ${selected.zone}` : "Station"}
-        open={!!selected}
-        onOpenChange={(open) => {
-          if (!open) closeDrawer();
-        }}
-      >
-        {selected && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between rounded-xl border border-white/8 bg-white/3 p-3">
-              <div>
-                <p className="text-[11px] text-white/40">Status</p>
-                <div className="mt-1">
-                  <StatusPill
-                    tone={
-                      selected.status === "available"
-                        ? "green"
-                        : selected.status === "in-use"
-                          ? "blue"
-                          : selected.status === "reserved"
-                            ? "amber"
-                            : "red"
-                    }
-                  >
-                    {STATUS_LABEL[selected.status]}
-                  </StatusPill>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-[11px] text-white/40">
-                  {selected.status === "in-use" ? "Time left" : "Session"}
-                </p>
-                <p className="num mt-1 text-[18px] text-white/90">
-                  {selected.status === "in-use" ? remaining(selected) : "—"}
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-1.5 text-[11px]">
-              <div className="flex justify-between">
-                <span className="text-white/35">Member</span>
-                <span className="text-white/75">{selected.member ?? "Walk-in"}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/35">Hardware</span>
-                <span className="text-white/75">{selected.spec}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/35">Telemetry</span>
-                <span className="num text-white/75">
-                  {selected.telemetry.cpu}° CPU · {selected.telemetry.gpu}° GPU
-                </span>
-              </div>
-            </div>
-
-            {selected.status === "available" || selected.status === "reserved" ? (
-              <div>
-                <p className="eyebrow mb-2">Start session</p>
-                <div className="grid grid-cols-3 gap-2">
-                  {[60, 120, 180].map((mins) => (
-                    <Button
-                      key={mins}
-                      variant="secondary"
-                      size="small"
-                      onClick={() => {
-                        startSession(selected.id, mins, selected.member ?? "Walk-in");
-                        toast({
-                          title: `Session started · ${selected.id}`,
-                          description: `${mins / 60}h block · ${selected.member ?? "Walk-in"}`,
-                        });
-                        closeDrawer();
-                      }}
-                    >
-                      {mins / 60}h
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-
-            {selected.status === "in-use" && (
-              <div>
-                <p className="eyebrow mb-2">Extend session</p>
-                <div className="grid grid-cols-2 gap-2">
-                  {[30, 60].map((mins) => (
-                    <Button
-                      key={mins}
-                      variant="secondary"
-                      size="small"
-                      onClick={() => {
-                        extendSession(selected.id, mins);
-                        toast({ title: `+${mins}m added`, description: selected.id });
-                        closeDrawer();
-                      }}
-                    >
-                      +{mins} min
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <Button
-              variant="primary"
-              className="w-full"
-              leadingIcon={<UtensilsCrossed size={15} />}
-              onClick={() => {
-                setCartTarget(selected.id);
-                setMode("pos");
-                closeDrawer();
-              }}
-            >
-              Order food for {selected.id}
-            </Button>
-
-            <div className="flex gap-2">
-              <Button
-                variant="secondary"
-                size="small"
-                className="flex-1"
-                leadingIcon={<Wrench size={13} />}
-                onClick={() => {
-                  setMaintenance(selected.id, selected.status !== "maintenance");
-                  toast({
-                    title:
-                      selected.status === "maintenance"
-                        ? `${selected.id} back online`
-                        : `${selected.id} in maintenance`,
-                  });
-                  closeDrawer();
-                }}
-              >
-                {selected.status === "maintenance" ? "Online" : "Maintenance"}
-              </Button>
-              {selected.status === "in-use" && (
-                <Button
-                  variant="danger"
-                  size="small"
-                  className="flex-1"
-                  onClick={() => {
-                    endSession(selected.id);
-                    toast({ title: `Session ended · ${selected.id}` });
-                    closeDrawer();
-                  }}
-                >
-                  End session
-                </Button>
-              )}
-            </div>
-          </div>
-        )}
-      </Drawer>
     </div>
   );
 }

@@ -1,5 +1,30 @@
 export type StationStatus = "available" | "in-use" | "reserved" | "maintenance";
-export type Zone = "Main Hall" | "VIP Room" | "Console Zone";
+export type Zone = "Main Hall" | "VIP Room" | "Console Zone" | "Esports Arena";
+
+export type StationType =
+  | "standard"
+  | "dual"
+  | "vip"
+  | "console"
+  | "table"
+  | "stream";
+
+export interface StationLayout {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  rotation: number;
+}
+
+export interface ZoneDef {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
 
 export interface Telemetry {
   cpu: number;
@@ -21,6 +46,10 @@ export interface Station {
   startsAt?: number;
   spec: string;
   telemetry: Telemetry;
+  type: StationType;
+  game: string;
+  locked: boolean;
+  layout: StationLayout;
 }
 
 export interface Member {
@@ -102,6 +131,54 @@ export const members: Member[] = [
   { id: "MB-2390", name: "Eli Novak", handle: "novak", tier: "Bronze", balance: 3.2, hours: 8, visits: 4, lastVisit: "2d ago", status: "banned" },
 ];
 
+const GAMES = [
+  "Valorant",
+  "Counter-Strike 2",
+  "Dota 2",
+  "League of Legends",
+  "Apex Legends",
+  "Fortnite",
+  "Desktop Idle",
+];
+
+export const ZONE_DEFS: ZoneDef[] = [
+  { id: "main-hall", name: "Main Hall", x: 40, y: 80, w: 760, h: 320 },
+  { id: "vip", name: "VIP Room", x: 830, y: 80, w: 400, h: 320 },
+  { id: "esports", name: "Esports Arena", x: 40, y: 430, w: 760, h: 330 },
+  { id: "console", name: "Console Zone", x: 830, y: 430, w: 400, h: 330 },
+];
+
+function layoutFor(zone: Zone, num: number): StationLayout {
+  const index = Math.max(0, num - 1);
+  if (zone === "VIP Room" || zone === "Console Zone") {
+    const cols = 2;
+    const baseY = zone === "VIP Room" ? 112 : 462;
+    return {
+      x: 852 + (index % cols) * 194,
+      y: baseY + Math.floor(index / cols) * 92,
+      w: 172,
+      h: 84,
+      rotation: 0,
+    };
+  }
+  if (zone === "Esports Arena") {
+    return {
+      x: 62 + (index % 4) * 182,
+      y: 470 + Math.floor(index / 4) * 88,
+      w: 166,
+      h: 76,
+      rotation: 0,
+    };
+  }
+  return {
+    x: 62 + (index % 4) * 176,
+    y: 112 + Math.floor(index / 4) * 92,
+    w: 160,
+    h: 84,
+    rotation: 0,
+  };
+}
+
 function station(
   id: string,
   zone: Zone,
@@ -109,7 +186,8 @@ function station(
   opts: Partial<Station> = {},
 ): Station {
   const num = Number.parseInt(id.slice(-2), 10) || 1;
-  const zoneOffset = zone === "Main Hall" ? 3 : zone === "VIP Room" ? 11 : 19;
+  const zoneOffset =
+    zone === "Main Hall" ? 3 : zone === "VIP Room" ? 11 : zone === "Console Zone" ? 19 : 23;
   const seed = (num * 7 + zoneOffset) % 29;
   const telemetry: Telemetry = {
     cpu: 36 + (seed % 28),
@@ -120,13 +198,36 @@ function station(
     disk: 36 + ((seed * 9) % 54),
     uptime: `${3 + (seed % 9)}d ${(seed * 3) % 24}h`,
   };
+  const type: StationType =
+    zone === "VIP Room"
+      ? "vip"
+      : zone === "Console Zone"
+        ? "console"
+        : zone === "Esports Arena"
+          ? num > 10
+            ? "stream"
+            : num % 4 === 0
+              ? "table"
+              : "standard"
+          : num % 5 === 0
+            ? "dual"
+            : "standard";
   return {
     id,
     name: id,
     zone,
     status,
-    spec: zone === "Console Zone" ? "PS5 Pro · 4K 120" : zone === "VIP Room" ? "RTX 4090 · 7800X3D" : "RTX 4070 · 13600K",
+    spec:
+      zone === "Console Zone"
+        ? "PS5 Pro · 4K 120"
+        : zone === "VIP Room"
+          ? "RTX 4090 · 7800X3D"
+          : "RTX 4070 · 13600K",
     telemetry,
+    type,
+    game: status === "in-use" ? GAMES[(seed + num) % GAMES.length] : "Desktop Idle",
+    locked: false,
+    layout: layoutFor(zone, num),
     ...opts,
   };
 }
@@ -156,6 +257,18 @@ export const stations: Station[] = [
   station("CS-04", "Console Zone", "maintenance"),
   station("CS-05", "Console Zone", "in-use", { member: "Lina Haddad", endsAt: min(9), startsAt: min(-171) }),
   station("CS-06", "Console Zone", "reserved"),
+  station("AR-01", "Esports Arena", "in-use", { member: "Aria Chen", endsAt: min(52), startsAt: min(-128) }),
+  station("AR-02", "Esports Arena", "in-use", { member: "Marcus Vale", endsAt: min(84), startsAt: min(-96) }),
+  station("AR-03", "Esports Arena", "available"),
+  station("AR-04", "Esports Arena", "in-use", { member: "Yuki Tanaka", endsAt: min(34), startsAt: min(-146) }),
+  station("AR-05", "Esports Arena", "available"),
+  station("AR-06", "Esports Arena", "reserved"),
+  station("AR-07", "Esports Arena", "in-use", { member: "Dev Patel", endsAt: min(66), startsAt: min(-54) }),
+  station("AR-08", "Esports Arena", "available"),
+  station("AR-09", "Esports Arena", "in-use", { member: "Sofia Reyes", endsAt: min(118), startsAt: min(-62) }),
+  station("AR-10", "Esports Arena", "available"),
+  station("AR-11", "Esports Arena", "in-use", { member: "Zara Ali", endsAt: min(41), startsAt: min(-139) }),
+  station("AR-12", "Esports Arena", "maintenance"),
 ];
 
 export const products: Product[] = [

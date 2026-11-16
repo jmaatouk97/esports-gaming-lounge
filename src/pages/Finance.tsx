@@ -81,7 +81,7 @@ export default function Finance() {
         {stats.map((stat) => (
           <div key={stat.label} className="panel p-4">
             <Stat label={stat.label} value={stat.value} change={stat.change} />
-            <p className="mt-2.5 text-[11px] text-white/32">{stat.foot}</p>
+            <p className="mt-2.5 text-[11px] text-[rgb(var(--ink-rgb)/0.32)]">{stat.foot}</p>
           </div>
         ))}
       </section>
@@ -123,10 +123,10 @@ export default function Finance() {
                   tickFormatter={(v: number) => `$${Math.round(v / 1000)}k`}
                 />
                 <Tooltip
-                  cursor={{ fill: "rgb(255 255 255 / 0.03)" }}
+                  cursor={{ fill: "rgb(var(--ink-rgb) / 0.03)" }}
                   contentStyle={{
                     background: "#0b0e14",
-                    border: "1px solid rgb(255 255 255 / 0.12)",
+                    border: "1px solid rgb(var(--ink-rgb) / 0.12)",
                     borderRadius: 10,
                     fontSize: 12,
                   }}
@@ -161,7 +161,7 @@ export default function Finance() {
                   <Tooltip
                     contentStyle={{
                       background: "#0b0e14",
-                      border: "1px solid rgb(255 255 255 / 0.12)",
+                      border: "1px solid rgb(var(--ink-rgb) / 0.12)",
                       borderRadius: 10,
                       fontSize: 12,
                     }}
@@ -174,19 +174,19 @@ export default function Finance() {
               {paymentMix.map((entry) => (
                 <div key={entry.name} className="flex items-center gap-2">
                   <span className="size-1.5 rounded-full" style={{ background: entry.color }} />
-                  <span className="min-w-0 flex-1 truncate text-[11px] text-white/50">{entry.name}</span>
-                  <span className="num text-[11px] text-white/80">{entry.value}%</span>
+                  <span className="min-w-0 flex-1 truncate text-[11px] text-[rgb(var(--ink-rgb)/0.50)]">{entry.name}</span>
+                  <span className="num text-[11px] text-[rgb(var(--ink-rgb)/0.80)]">{entry.value}%</span>
                 </div>
               ))}
             </div>
           </div>
-          <div className="mt-4 flex items-center justify-between border-t border-white/8 pt-3 text-[11px]">
-            <span className="text-white/40">Settled today</span>
-            <span className="num text-white/80">{usd(3198.4)}</span>
+          <div className="mt-4 flex items-center justify-between border-t border-[rgb(var(--ink-rgb)/0.08)] pt-3 text-[11px]">
+            <span className="text-[rgb(var(--ink-rgb)/0.40)]">Settled today</span>
+            <span className="num text-[rgb(var(--ink-rgb)/0.80)]">{usd(3198.4)}</span>
           </div>
           <div className="mt-1.5 flex items-center justify-between text-[11px]">
-            <span className="text-white/40">Pending tabs</span>
-            <span className="num text-white/80">{usd(342.8)}</span>
+            <span className="text-[rgb(var(--ink-rgb)/0.40)]">Pending tabs</span>
+            <span className="num text-[rgb(var(--ink-rgb)/0.80)]">{usd(342.8)}</span>
           </div>
         </div>
       </section>
@@ -220,10 +220,10 @@ export default function Finance() {
                 {shifts.map((shift) => (
                   <tr key={shift.id}>
                     <td>
-                      <p className="text-[12px] font-medium text-white/85">{shift.label}</p>
-                      <p className="num text-[9.5px] text-white/28">{shift.window}</p>
+                      <p className="text-[12px] font-medium text-[rgb(var(--ink-rgb)/0.85)]">{shift.label}</p>
+                      <p className="num text-[9.5px] text-[rgb(var(--ink-rgb)/0.28)]">{shift.window}</p>
                     </td>
-                    <td className="text-[11px] text-white/50">{shift.staff}</td>
+                    <td className="text-[11px] text-[rgb(var(--ink-rgb)/0.50)]">{shift.staff}</td>
                     <td className="num">{usd(shift.cash)}</td>
                     <td className="num">{usd(shift.card)}</td>
                     <td>
@@ -246,24 +246,24 @@ export default function Finance() {
         <div className="panel overflow-hidden">
           <div className="flex items-center justify-between p-4 pb-2">
             <SectionHead title="Loans & debt" hint={`${usd(outstanding)} open`} />
-            <HandCoins size={14} className="text-white/30" />
+            <HandCoins size={14} className="text-[rgb(var(--ink-rgb)/0.30)]" />
           </div>
-          <div className="divide-y divide-white/6">
+          <div className="divide-y divide-[rgb(var(--ink-rgb)/0.06)]">
             {ledger.length === 0 && (
-              <p className="px-4 py-8 text-center text-[11px] text-white/35">No open balances.</p>
+              <p className="px-4 py-8 text-center text-[11px] text-[rgb(var(--ink-rgb)/0.35)]">No open balances.</p>
             )}
             {ledger.map((loan) => (
               <div key={loan.id} className="flex items-center gap-3 px-4 py-2.5">
                 <div className="min-w-0 flex-1">
-                  <p className="text-[12px] text-white/80">{loan.member}</p>
-                  <p className="num text-[9.5px] text-white/28">
+                  <p className="text-[12px] text-[rgb(var(--ink-rgb)/0.80)]">{loan.member}</p>
+                  <p className="num text-[9.5px] text-[rgb(var(--ink-rgb)/0.28)]">
                     {loan.id} · due {loan.due}
                   </p>
                 </div>
                 <StatusPill tone={loan.status === "overdue" ? "red" : "amber"}>
                   {loan.status}
                 </StatusPill>
-                <span className="num w-14 text-right text-[12px] text-white/80">
+                <span className="num w-14 text-right text-[12px] text-[rgb(var(--ink-rgb)/0.80)]">
                   {usd(loan.amount)}
                 </span>
                 <Button
@@ -282,8 +282,8 @@ export default function Finance() {
               </div>
             ))}
           </div>
-          <div className="flex items-center justify-between border-t border-white/8 px-4 py-2.5">
-            <span className="text-[10px] text-white/35">Recovery rate</span>
+          <div className="flex items-center justify-between border-t border-[rgb(var(--ink-rgb)/0.08)] px-4 py-2.5">
+            <span className="text-[10px] text-[rgb(var(--ink-rgb)/0.35)]">Recovery rate</span>
             <span className="flex items-center gap-1.5 text-[10px] text-emerald-300/90">
               <ArrowUpRight size={11} /> 78% within 7 days
             </span>
@@ -299,15 +299,15 @@ export default function Finance() {
         ].map((item) => (
           <Card key={item.label} className="!p-4">
             <div className="flex items-center gap-3">
-              <span className="grid size-9 place-items-center rounded-xl border border-white/8 bg-white/4 text-white/50">
+              <span className="grid size-9 place-items-center rounded-xl border border-[rgb(var(--ink-rgb)/0.08)] bg-[rgb(var(--ink-rgb)/0.04)] text-[rgb(var(--ink-rgb)/0.50)]">
                 <item.icon size={16} />
               </span>
               <div>
-                <p className="text-[10px] text-white/35">{item.label}</p>
-                <p className="num mt-0.5 text-[16px] text-white/90">{item.value}</p>
+                <p className="text-[10px] text-[rgb(var(--ink-rgb)/0.35)]">{item.label}</p>
+                <p className="num mt-0.5 text-[16px] text-[rgb(var(--ink-rgb)/0.90)]">{item.value}</p>
               </div>
             </div>
-            <p className="mt-3 text-[10px] text-white/28">{item.foot}</p>
+            <p className="mt-3 text-[10px] text-[rgb(var(--ink-rgb)/0.28)]">{item.foot}</p>
           </Card>
         ))}
       </div>
@@ -320,7 +320,7 @@ export default function Finance() {
       >
         {viewing && (
           <div className="space-y-3">
-            <div className="rounded-xl border border-white/8 bg-white/3 p-3">
+            <div className="rounded-xl border border-[rgb(var(--ink-rgb)/0.08)] bg-[rgb(var(--ink-rgb)/0.03)] p-3">
               {[
                 ["Cash", viewing.cash],
                 ["Card", viewing.card],
@@ -328,13 +328,13 @@ export default function Finance() {
                 ["Variance", viewing.variance],
               ].map(([label, value]) => (
                 <div key={String(label)} className="flex justify-between py-1 text-[12px]">
-                  <span className="text-white/40">{label}</span>
-                  <span className="num text-white/85">{usd(Number(value))}</span>
+                  <span className="text-[rgb(var(--ink-rgb)/0.40)]">{label}</span>
+                  <span className="num text-[rgb(var(--ink-rgb)/0.85)]">{usd(Number(value))}</span>
                 </div>
               ))}
-              <div className="mt-2 flex justify-between border-t border-white/8 pt-2 text-[13px]">
-                <span className="text-white/60">Total</span>
-                <span className="num text-white/95">
+              <div className="mt-2 flex justify-between border-t border-[rgb(var(--ink-rgb)/0.08)] pt-2 text-[13px]">
+                <span className="text-[rgb(var(--ink-rgb)/0.60)]">Total</span>
+                <span className="num text-[rgb(var(--ink-rgb)/0.95)]">
                   {usd(viewing.cash + viewing.card + viewing.tab)}
                 </span>
               </div>

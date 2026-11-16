@@ -93,15 +93,15 @@ export default function Members() {
           { label: "Active sessions", value: String(activeSessions), foot: "8 linked to members" },
         ].map((stat) => (
           <div key={stat.label} className="panel p-4">
-            <p className="text-[11px] text-white/40">{stat.label}</p>
+            <p className="text-[11px] text-[rgb(var(--ink-rgb)/0.40)]">{stat.label}</p>
             <p className="metric mt-2">{stat.value}</p>
-            <p className="mt-2 text-[10px] text-white/28">{stat.foot}</p>
+            <p className="mt-2 text-[10px] text-[rgb(var(--ink-rgb)/0.28)]">{stat.foot}</p>
           </div>
         ))}
       </section>
 
       <section className="panel overflow-hidden">
-        <div className="flex flex-wrap items-end gap-2 border-b border-white/7 p-4">
+        <div className="flex flex-wrap items-end gap-2 border-b border-[rgb(var(--ink-rgb)/0.07)] p-4">
           <div className="min-w-[240px] flex-1">
             <SearchField
               label="Search members"
@@ -121,7 +121,7 @@ export default function Members() {
               }))}
             />
           </div>
-          <span className="num mb-2 ml-auto hidden text-[10px] text-white/25 md:block">
+          <span className="num mb-2 ml-auto hidden text-[10px] text-[rgb(var(--ink-rgb)/0.25)] md:block">
             {filtered.length} accounts
           </span>
         </div>
@@ -148,12 +148,12 @@ export default function Members() {
                     <div className="flex items-center gap-2.5">
                       <Avatar name={member.name} size="small" />
                       <div>
-                        <p className="text-[12px] font-medium text-white/85">{member.name}</p>
-                        <p className="num text-[9.5px] text-white/30">@{member.handle}</p>
+                        <p className="text-[12px] font-medium text-[rgb(var(--ink-rgb)/0.85)]">{member.name}</p>
+                        <p className="num text-[9.5px] text-[rgb(var(--ink-rgb)/0.30)]">@{member.handle}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="num text-[10px] text-white/40">{member.id}</td>
+                  <td className="num text-[10px] text-[rgb(var(--ink-rgb)/0.40)]">{member.id}</td>
                   <td>
                     <TierBadge tier={member.tier} />
                   </td>
@@ -162,9 +162,9 @@ export default function Members() {
                       {usd(member.balance)}
                     </span>
                   </td>
-                  <td className="num text-white/55">{member.hours}h</td>
-                  <td className="num text-white/55">{member.visits}</td>
-                  <td className="text-[11px] text-white/40">{member.lastVisit}</td>
+                  <td className="num text-[rgb(var(--ink-rgb)/0.55)]">{member.hours}h</td>
+                  <td className="num text-[rgb(var(--ink-rgb)/0.55)]">{member.visits}</td>
+                  <td className="text-[11px] text-[rgb(var(--ink-rgb)/0.40)]">{member.lastVisit}</td>
                   <td>
                     <StatusPill
                       tone={
@@ -194,10 +194,10 @@ export default function Members() {
       >
         {selected && (
           <div className="space-y-4">
-            <div className="flex items-center gap-3 rounded-xl border border-white/8 bg-white/3 p-3">
+            <div className="flex items-center gap-3 rounded-xl border border-[rgb(var(--ink-rgb)/0.08)] bg-[rgb(var(--ink-rgb)/0.03)] p-3">
               <Avatar name={selected.name} size="large" />
               <div className="min-w-0 flex-1">
-                <p className="text-[14px] font-medium text-white/90">{selected.name}</p>
+                <p className="text-[14px] font-medium text-[rgb(var(--ink-rgb)/0.90)]">{selected.name}</p>
                 <div className="mt-1 flex items-center gap-2">
                   <TierBadge tier={selected.tier} />
                   <StatusPill tone={selected.status === "active" ? "green" : "slate"}>
@@ -206,8 +206,8 @@ export default function Members() {
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-[10px] text-white/35">Balance</p>
-                <p className="num text-[20px] text-white/95">{usd(selected.balance)}</p>
+                <p className="text-[10px] text-[rgb(var(--ink-rgb)/0.35)]">Balance</p>
+                <p className="num text-[20px] text-[rgb(var(--ink-rgb)/0.95)]">{usd(selected.balance)}</p>
               </div>
             </div>
 
@@ -218,8 +218,8 @@ export default function Members() {
                 ["Last seen", selected.lastVisit],
               ].map(([label, value]) => (
                 <div key={label} className="inset-well p-2.5">
-                  <p className="text-[9px] uppercase tracking-[0.1em] text-white/30">{label}</p>
-                  <p className="num mt-1 text-[12px] text-white/80">{value}</p>
+                  <p className="text-[9px] uppercase tracking-[0.1em] text-[rgb(var(--ink-rgb)/0.30)]">{label}</p>
+                  <p className="num mt-1 text-[12px] text-[rgb(var(--ink-rgb)/0.80)]">{value}</p>
                 </div>
               ))}
             </div>
@@ -256,22 +256,22 @@ export default function Members() {
               </Button>
             </div>
 
-            <div className="space-y-1.5 border-t border-white/8 pt-3">
+            <div className="space-y-1.5 border-t border-[rgb(var(--ink-rgb)/0.08)] pt-3">
               <div className="flex items-center justify-between text-[11px]">
-                <span className="text-white/35">Loyalty tier</span>
-                <span className="flex items-center gap-1 text-white/75">
+                <span className="text-[rgb(var(--ink-rgb)/0.35)]">Loyalty tier</span>
+                <span className="flex items-center gap-1 text-[rgb(var(--ink-rgb)/0.75)]">
                   <BadgeCheck size={12} /> {selected.tier} · {selected.visits} visits
                 </span>
               </div>
               <div className="flex items-center justify-between text-[11px]">
-                <span className="text-white/35">Preferred seat</span>
-                <span className="num text-white/75">
+                <span className="text-[rgb(var(--ink-rgb)/0.35)]">Preferred seat</span>
+                <span className="num text-[rgb(var(--ink-rgb)/0.75)]">
                   {selected.tier === "Platinum" ? "VIP-01" : selected.tier === "Gold" ? "MH-04" : "Walk-in"}
                 </span>
               </div>
               <div className="flex items-center justify-between text-[11px]">
-                <span className="text-white/35">Member since</span>
-                <span className="text-white/75">Mar 2024</span>
+                <span className="text-[rgb(var(--ink-rgb)/0.35)]">Member since</span>
+                <span className="text-[rgb(var(--ink-rgb)/0.75)]">Mar 2024</span>
               </div>
             </div>
 

@@ -66,17 +66,17 @@ export default function ThemeSwitcher() {
               }}
             >
               <PresetSwatches colors={item.colors} size={13} />
-              <span className="flex-1 text-left text-[12.5px] font-medium text-white/90">
+              <span className="flex-1 text-left text-[12.5px] font-medium text-[rgb(var(--ink-rgb)/0.90)]">
                 {item.name}
               </span>
               {item.id === preset.id && (
-                <Check size={13} className="text-white/70" strokeWidth={2.4} />
+                <Check size={13} className="text-[rgb(var(--ink-rgb)/0.70)]" strokeWidth={2.4} />
               )}
             </button>
           ))}
         </div>
-        <div className="mt-2 border-t border-white/8 px-2 pt-2">
-          <p className="text-[11px] leading-relaxed text-white/40">
+        <div className="mt-2 border-t border-[rgb(var(--ink-rgb)/0.08)] px-2 pt-2">
+          <p className="text-[11px] leading-relaxed text-[rgb(var(--ink-rgb)/0.40)]">
             85% neutral glass · accents reserved for actions, data and status.
           </p>
         </div>
