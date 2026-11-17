@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
-import { Button, IconButton } from "open-glass-ui";
+import { Button, IconButton, Switch } from "open-glass-ui";
 import {
   Check,
   Moon,
@@ -17,6 +17,7 @@ import {
   FONT_PAIRS,
   PRESETS,
   useThemePreset,
+  type BackgroundMode,
   type Optics,
 } from "../theme";
 
@@ -27,6 +28,64 @@ const OPTICS: { key: keyof Optics; label: string; hint: string }[] = [
   { key: "frost", label: "Frost", hint: "Backdrop saturation and diffusion" },
   { key: "blur", label: "Blur", hint: "Backdrop blur radius" },
   { key: "specular", label: "Specular", hint: "Directional highlight strength" },
+];
+
+const BACKGROUND_OPTIONS: {
+  id: BackgroundMode;
+  label: string;
+  hint: string;
+  preview: CSSProperties;
+}[] = [
+  {
+    id: "none",
+    label: "Ambient",
+    hint: "CSS orbs + grid",
+    preview: {
+      background:
+        "radial-gradient(circle at 70% 20%, color-mix(in srgb, var(--theme-primary) 45%, transparent), transparent 65%), var(--app-bg)",
+    },
+  },
+  {
+    id: "led",
+    label: "LED matrix",
+    hint: "Animated dots + sweep",
+    preview: {
+      backgroundColor: "#05060b",
+      backgroundImage:
+        "radial-gradient(circle, color-mix(in srgb, var(--theme-primary) 92%, transparent) 1px, transparent 1.5px)",
+      backgroundSize: "7px 7px",
+    },
+  },
+  {
+    id: "aurora",
+    label: "Aurora mesh",
+    hint: "Flowing noise fields",
+    preview: {
+      background:
+        "radial-gradient(120% 100% at 15% 20%, color-mix(in srgb, var(--theme-primary) 70%, transparent), transparent 60%), radial-gradient(90% 90% at 85% 80%, color-mix(in srgb, var(--theme-secondary) 55%, transparent), transparent 62%), #060810",
+    },
+  },
+  {
+    id: "grid",
+    label: "Vector grid",
+    hint: "Perspective horizon",
+    preview: {
+      backgroundColor: "#05070d",
+      backgroundImage:
+        "linear-gradient(color-mix(in srgb, var(--theme-primary) 55%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--theme-primary) 35%, transparent) 1px, transparent 1px)",
+      backgroundSize: "9px 9px",
+    },
+  },
+  {
+    id: "grain",
+    label: "Film grain",
+    hint: "Fine animated noise",
+    preview: {
+      background:
+        "radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.16) 0.5px, transparent 1px), radial-gradient(circle at 70% 65%, rgb(255 255 255 / 0.12) 0.5px, transparent 1px), #080a10",
+      backgroundSize: "3px 3px, 5px 5px, auto",
+    },
+  },
 ];
 
 function Swatches({ colors, size = 14 }: { colors: [string, string, string]; size?: number }) {
@@ -60,6 +119,9 @@ export default function AppearanceStudio() {
     optics,
     setOptics,
     resetOptics,
+    background,
+    setBackground,
+    resetBackground,
     resetAll,
   } = useThemePreset();
   const [open, setOpen] = useState(false);
@@ -198,6 +260,135 @@ export default function AppearanceStudio() {
                     </button>
                   ))}
                 </div>
+              </section>
+
+              <section>
+                <div className="mb-2 flex items-center justify-between">
+                  <p className="eyebrow flex items-center gap-1.5">
+                    Live background
+                    {background.mode !== "none" && (
+                      <span className="rail-label" style={{ color: "var(--theme-primary)" }}>
+                        WebGL
+                      </span>
+                    )}
+                  </p>
+                  {background.mode !== "none" && (
+                    <button
+                      type="button"
+                      onClick={resetBackground}
+                      className="text-[9.5px] text-[rgb(var(--ink-rgb)/0.4)] transition hover:text-[rgb(var(--ink-rgb)/0.8)]"
+                    >
+                      Reset
+                    </button>
+                  )}
+                </div>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {BACKGROUND_OPTIONS.map((item) => {
+                    const active = background.mode === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => setBackground({ mode: item.id })}
+                        aria-pressed={active}
+                        className="rounded-xl border p-1.5 text-left transition"
+                        style={{
+                          borderColor: active
+                            ? "color-mix(in srgb, var(--theme-primary) 50%, transparent)"
+                            : "var(--hairline)",
+                          background: active
+                            ? "color-mix(in srgb, var(--theme-primary) 10%, transparent)"
+                            : "transparent",
+                        }}
+                      >
+                        <span
+                          className="relative block h-11 overflow-hidden rounded-lg border border-[rgb(var(--ink-rgb)/0.08)]"
+                          style={item.preview}
+                        >
+                          {item.id !== "none" && (
+                            <span
+                              className="absolute right-1.5 top-1.5 rounded px-1 py-0.5 text-[7px] font-semibold uppercase tracking-[0.12em]"
+                              style={{
+                                background: "rgb(2 4 10 / 0.55)",
+                                color: "#fff",
+                              }}
+                            >
+                              live
+                            </span>
+                          )}
+                        </span>
+                        <span className="mt-1.5 flex items-center justify-between gap-1">
+                          <span className="truncate text-[10.5px] font-medium text-[rgb(var(--ink-rgb)/0.82)]">
+                            {item.label}
+                          </span>
+                          {active && <Check size={11} strokeWidth={2.6} />}
+                        </span>
+                        <span className="block truncate text-[9px] text-[rgb(var(--ink-rgb)/0.38)]">
+                          {item.hint}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {background.mode !== "none" && (
+                  <div className="mt-3 space-y-3 rounded-xl border border-[color:var(--hairline)] p-3">
+                    <label className="block">
+                      <span className="flex items-baseline justify-between">
+                        <span className="text-[11px] font-medium text-[rgb(var(--ink-rgb)/0.75)]">
+                          Speed
+                        </span>
+                        <span className="num text-[10px] text-[rgb(var(--ink-rgb)/0.45)]">
+                          {background.speed}
+                        </span>
+                      </span>
+                      <input
+                        type="range"
+                        min={0}
+                        max={100}
+                        value={background.speed}
+                        onChange={(event) =>
+                          setBackground({ speed: Number(event.target.value) })
+                        }
+                        className="range-input mt-1"
+                        style={{ ["--range" as string]: `${background.speed}%` }}
+                        aria-label="Background speed"
+                      />
+                    </label>
+                    <label className="block">
+                      <span className="flex items-baseline justify-between">
+                        <span className="text-[11px] font-medium text-[rgb(var(--ink-rgb)/0.75)]">
+                          Intensity
+                        </span>
+                        <span className="num text-[10px] text-[rgb(var(--ink-rgb)/0.45)]">
+                          {background.intensity}
+                        </span>
+                      </span>
+                      <input
+                        type="range"
+                        min={0}
+                        max={100}
+                        value={background.intensity}
+                        onChange={(event) =>
+                          setBackground({ intensity: Number(event.target.value) })
+                        }
+                        className="range-input mt-1"
+                        style={{ ["--range" as string]: `${background.intensity}%` }}
+                        aria-label="Background intensity"
+                      />
+                    </label>
+                    <Switch
+                      label="Pause animation"
+                      description="Renders one static frame"
+                      checked={background.paused}
+                      onCheckedChange={(checked) => setBackground({ paused: checked })}
+                    />
+                    <p className="text-[9px] leading-relaxed text-[rgb(var(--ink-rgb)/0.32)]">
+                      Live GLSL fragment shader on a WebGL canvas. Paused automatically when the
+                      tab is hidden and for reduced-motion preferences.
+                    </p>
+                  </div>
+                )}
               </section>
 
               <section>

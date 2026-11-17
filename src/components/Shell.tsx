@@ -31,8 +31,10 @@ import {
   X,
 } from "lucide-react";
 import AppearanceStudio from "./AppearanceStudio";
+import BackgroundShader from "./BackgroundShader";
 import { useApp } from "../store";
 import { alerts } from "../data";
+import { useThemePreset } from "../theme";
 
 const NAV = [
   { to: "/", label: "Overview", icon: LayoutDashboard },
@@ -96,6 +98,7 @@ export default function Shell() {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { background } = useThemePreset();
   const collapsed = useApp((s) => s.sidebarCollapsed);
   const toggleSidebar = useApp((s) => s.toggleSidebar);
   const mobileNav = useApp((s) => s.mobileNav);
@@ -151,7 +154,8 @@ export default function Shell() {
 
   return (
     <>
-      <div className="ambient" aria-hidden="true">
+      <div className="ambient" data-shader={background.mode !== "none"} aria-hidden="true">
+        <BackgroundShader />
         <div className="orb orb-1" />
         <div className="orb orb-2" />
         <div className="orb orb-3" />

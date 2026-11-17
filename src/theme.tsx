@@ -127,11 +127,30 @@ export const DEFAULT_OPTICS: Optics = {
   specular: 52,
 };
 
+export type BackgroundMode = "none" | "led" | "aurora" | "grid" | "grain";
+
+export interface BackgroundSettings {
+  mode: BackgroundMode;
+  speed: number;
+  intensity: number;
+  paused: boolean;
+}
+
+export const DEFAULT_BACKGROUND: BackgroundSettings = {
+  mode: "none",
+  speed: 42,
+  intensity: 55,
+  paused: false,
+};
+
+const BACKGROUND_MODES: BackgroundMode[] = ["none", "led", "aurora", "grid", "grain"];
+
 interface AppearanceState {
   presetId: PresetId;
   mode: Mode;
   fontId: FontId;
   optics: Optics;
+  background: BackgroundSettings;
 }
 
 const DEFAULTS: AppearanceState = {
@@ -139,6 +158,7 @@ const DEFAULTS: AppearanceState = {
   mode: "dark",
   fontId: "inter",
   optics: DEFAULT_OPTICS,
+  background: DEFAULT_BACKGROUND,
 };
 
 const STORAGE_KEY = "nexus-appearance-v2";
@@ -158,6 +178,13 @@ function readSaved(): AppearanceState {
         ? (parsed.fontId as FontId)
         : DEFAULTS.fontId,
       optics: { ...DEFAULT_OPTICS, ...(parsed.optics ?? {}) },
+      background: {
+        ...DEFAULT_BACKGROUND,
+        ...(parsed.background ?? {}),
+        mode: BACKGROUND_MODES.includes(parsed.background?.mode as BackgroundMode)
+          ? (parsed.background?.mode as BackgroundMode)
+          : DEFAULT_BACKGROUND.mode,
+      },
     };
   } catch {
     return DEFAULTS;
@@ -175,6 +202,9 @@ interface ThemeContextValue {
   optics: Optics;
   setOptics: (patch: Partial<Optics>) => void;
   resetOptics: () => void;
+  background: BackgroundSettings;
+  setBackground: (patch: Partial<BackgroundSettings>) => void;
+  resetBackground: () => void;
   resetAll: () => void;
 }
 
@@ -236,6 +266,15 @@ export function ThemeController({ children }: { children: ReactNode }) {
     () => setState((s) => ({ ...s, optics: DEFAULT_OPTICS })),
     [],
   );
+  const setBackground = useCallback(
+    (patch: Partial<BackgroundSettings>) =>
+      setState((s) => ({ ...s, background: { ...s.background, ...patch } })),
+    [],
+  );
+  const resetBackground = useCallback(
+    () => setState((s) => ({ ...s, background: DEFAULT_BACKGROUND })),
+    [],
+  );
   const resetAll = useCallback(() => setState(DEFAULTS), []);
 
   const value = useMemo(
@@ -250,9 +289,27 @@ export function ThemeController({ children }: { children: ReactNode }) {
       optics: state.optics,
       setOptics,
       resetOptics,
+      background: state.background,
+      setBackground,
+      resetBackground,
       resetAll,
     }),
-    [preset, setPreset, state.mode, setMode, toggleMode, font, setFont, state.optics, setOptics, resetOptics, resetAll],
+    [
+      preset,
+      setPreset,
+      state.mode,
+      setMode,
+      toggleMode,
+      font,
+      setFont,
+      state.optics,
+      setOptics,
+      resetOptics,
+      state.background,
+      setBackground,
+      resetBackground,
+      resetAll,
+    ],
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

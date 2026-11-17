@@ -56,14 +56,15 @@ All hardware actions (remote desktop, restart, shutdown, wake-on-LAN, lock, mess
 The header palette button opens the Appearance Studio:
 
 - Light and dark mode, 16 presets, 6 font pairings.
-- Six glass-optics sliders (blur, saturation, opacity, rim, dispersion, tint).
+- Six glass-optics sliders (strength, bezel, dispersion, frost, blur, specular).
+- Live WebGL backgrounds — LED matrix, aurora mesh, vector grid and film grain — with speed, intensity and pause controls. Animation pauses when the tab is hidden and honours reduced-motion preferences.
 - Persisted in `localStorage` under `nexus-appearance-v2`.
 
 ## Persistence keys
 
 | Key | Contents |
 | --- | --- |
-| `nexus-appearance-v2` | Mode, preset, font pair and optics |
+| `nexus-appearance-v2` | Mode, preset, font pair, optics and live background settings |
 | `nexus-floor-v3` | Station positions, sizes, rotation, zones and floor extras |
 
 The floor layout is browser-local by design; seeded deployments always start from 36 stations across four zones.
