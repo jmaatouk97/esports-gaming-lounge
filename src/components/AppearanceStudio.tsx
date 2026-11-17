@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Button, IconButton } from "open-glass-ui";
 import {
   Check,
@@ -62,6 +63,7 @@ export default function AppearanceStudio() {
     resetAll,
   } = useThemePreset();
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -69,17 +71,32 @@ export default function AppearanceStudio() {
       if (event.key === "Escape") setOpen(false);
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previousOverflow;
+    };
   }, [open]);
+
+  const close = () => {
+    setOpen(false);
+    triggerRef.current?.focus();
+  };
 
   return (
     <>
       <Button
+        ref={triggerRef}
         variant="quiet"
         size="small"
         className="gap-2"
         onClick={() => setOpen(true)}
         aria-label="Open appearance studio"
+        aria-expanded={open}
+        aria-haspopup="dialog"
       >
         <Palette size={15} strokeWidth={1.9} />
         <Swatches colors={preset.colors} size={10} />
@@ -88,21 +105,22 @@ export default function AppearanceStudio() {
         </span>
       </Button>
 
-      {open && (
-        <>
-          <button
-            type="button"
-            aria-label="Close appearance studio"
-            className="glass-backdrop"
-            onClick={() => setOpen(false)}
-          />
-          <aside
-            className="drawer-glass"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Appearance studio"
-            style={{ width: "min(430px, calc(100vw - 24px))" }}
-          >
+      {open &&
+        createPortal(
+          <>
+            <button
+              type="button"
+              aria-label="Close appearance studio"
+              className="glass-backdrop"
+              onClick={close}
+            />
+            <aside
+              className="drawer-glass"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Appearance studio"
+              style={{ width: "min(430px, calc(100vw - 24px))" }}
+            >
             <div className="drawer-hero">
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -116,7 +134,7 @@ export default function AppearanceStudio() {
                     Live preview · persisted to this browser
                   </p>
                 </div>
-                <IconButton aria-label="Close" onClick={() => setOpen(false)}>
+                <IconButton aria-label="Close" onClick={close}>
                   <X size={15} />
                 </IconButton>
               </div>
@@ -329,7 +347,8 @@ export default function AppearanceStudio() {
               </p>
             </div>
           </aside>
-        </>
+        </>,
+        document.body,
       )}
     </>
   );

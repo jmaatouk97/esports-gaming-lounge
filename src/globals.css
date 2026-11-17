@@ -274,7 +274,7 @@ body {
     color-mix(in srgb, var(--theme-primary) 5%, transparent) 70%,
     transparent
   );
-  color: #fff;
+  color: var(--ink);
 }
 
 .nav-item[data-active="true"]::before {
